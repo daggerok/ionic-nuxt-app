@@ -1,0 +1,82 @@
+notifications:
+  email: false
+git:
+  quiet: true
+  depth: false
+language: node
+node_js: lts/*
+python: 3.7
+service: docker
+os: linux
+addons:
+  apt:
+    update: true
+    packages:
+      - curl
+      - sudo
+      - lsof
+      - docker-ce
+      - python3-pip
+install: true
+before_install:
+  - export DISPLAY=:99.0
+  - |
+    if [ ! -f ${HOME}/.local/daggerok/bash-functions/master/main.bash ] ; then
+      mkdir -p ${HOME}/.local/daggerok/bash-functions/master ;
+      curl -s https://raw.githubusercontent.com/daggerok/bash-functions/master/main.bash > ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+    fi
+    source ${HOME}/.local/daggerok/bash-functions/master/main.bash ;
+  - stop_any 80 3000 5000 8080 5432
+  - export PATH=$HOME/.local/bin:$PATH
+  - pip3 install --user --upgrade pip setuptools
+  - pip install --user --upgrade httpie
+jobs:
+  include:
+    - stage: test
+      name: test
+      before_script:
+        - cd $TRAVIS_BUILD_DIR && npm i -E
+      script:
+        - cd $TRAVIS_BUILD_DIR && npm t
+    - stage: test
+      name: build and run
+      before_script:
+        - cd $TRAVIS_BUILD_DIR && npm i -E
+        - cd $TRAVIS_BUILD_DIR && npm run build
+        - docker run -d --rm --name app -p 80:80 -v $TRAVIS_BUILD_DIR/dist:/usr/share/nginx/html:ro
+                        --health-cmd="wget -q --spider http://127.0.0.1:80/ || exit 1"
+                        --health-start-period=1s
+                        --health-interval=1s
+                        --health-retries=33
+                        --health-timeout=1s
+                        nginx:1.17.6-alpine
+        - wait_healthy_docker_containers 1
+      script:
+        - http :/
+      after_script: docker rm -f -v app
+    - stage: deploy
+      name: build and deploy
+      script: skip
+      jdk: openjdk8
+      before_deploy:
+        - cd $TRAVIS_BUILD_DIR && npm i
+        - cd $TRAVIS_BUILD_DIR && npm run predeploy
+      env:
+        - secure: "hE413vOxGUojoT8WmbNtqiD/DVgBemMj4t05FcJ6qjcWHd9h3ATuGJrD3TocGzzytwFOV83vn4qp9utPGszDkiBqHN219qSabkBgKBuxWsSfEfWsc8EgSW4U87VccA9HD1+q6VWrgi8Q5gsgMZ1s2blP74uTmsbI+liUwARNlrHFOo5kty7xj4wEzB+RiaBtdvNE1FyYngVPK49bY0J4yjN79ZB1AaRk0jtGU5Ywy9xaoWCKs8EuMFY2hLoeB6CU3quAl33I36bOcK/0oxkPYj8DOwOt9veUOlOmr+wC76ABKT6k8j9iTM/SuAm7vQl3vogchHa1ioqHCJb7y+eFQsFUHMproPs8NhtC8RUg3z33aWgtKOG5+ZZOA52jyKCQ/FF4+qWU31EupYxssBRLGe2Lz6nLzF77s6f8l/WRo1ChRVKMlHMEK5OuZJtQ6DeZMralamnq/fMlXo9kvS3Jzcwgjs6lcXYkaeIF63+ctVb9sSloZhelLXrJFFeEZQZDQSf6mtO4epk7Vu/gh6OYRI9DiURllHxyzo/u/X3IgWfaRT78ClAIqasEeBzqRU0ezh5Fu5inLL6DGJnG9vNJ1gk2jG2BRdxIZA5Q4ZnkQ0OlLg9HH3vEilc8TR7ieEKajejYCg075aSCKAAyBU4sQgJECuy47bwtu8YBlwnExZQ="
+      deploy: &pages
+        provider: pages
+        skip-cleanup: true
+        keep-history: true
+        target_branch: gh-pages
+        # travis encrypt GITHUB_TOKEN=<your github repo token> --add
+        github-token: "$GITHUB_TOKEN"
+        local-dir: $TRAVIS_BUILD_DIR/dist
+        on:
+          all_branches: true
+          condition: $TRAVIS_BRANCH =~ ^(master|ci)$
+cache:
+  directories:
+  - ~/.m2
+  - ~/.n*
+  - node_modules
+  - ~/.local/daggerok

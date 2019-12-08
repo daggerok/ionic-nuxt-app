@@ -1,0 +1,29 @@
+{
+  "name": "ionic-nuxt-app",
+  "version": "0.0.0",
+  "description": "My Ionic Nuxt.js app",
+  "author": "Maksim Kostromin",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@ionic/core": "4.11.5",
+    "@ionic/vue": "0.0.4",
+    "@nuxtjs/axios": "5.8.0",
+    "@nuxtjs/dotenv": "1.4.1",
+    "nuxt": "2.10.2"
+  },
+  "devDependencies": {
+    "@nuxtjs/pwa": "3.0.0-beta.19",
+    "@types/node": "12.12.14",
+    "@vue/test-utils": "1.0.0-beta.27",
+    "babel-jest": "24.9.0",
+    "jest": "24.9.0",
+    "vue-jest": "4.0.0-beta.2"
+  }
+}
