@@ -1,0 +1,30 @@
+name: CI
+on: [push]
+env:
+  SPRING_PROFILES_ACTIVE: ci
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    name: tests
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/cache@v1
+      with:
+        path: ~/.n*
+        key: ${{ runner.os }}-javascript-${{ hashFiles('**/package.json') }}
+        restore-keys: |
+          ${{ runner.os }}-javascript-
+    - run: sudo apt-get install -y httpie
+    - run: command -v http >/dev/null 2>&1 || { echo >&2 "I require http (httpie), but it's not installed. Aborting."; exit 1; }
+    - uses: actions/setup-node@v1
+    - run: command -v npm >/dev/null 2>&1 || { echo >&2 "I require npm, but it's not installed. Aborting."; exit 1; }
+    - run: sudo npm i -g wait-port
+    - run: command -v wait-port >/dev/null 2>&1 || { echo >&2 "I require wait-port, but it's not installed. Aborting."; exit 1; }
+    - run: cd $GITHUB_WORKSPACE && npm i
+    - run: cd $GITHUB_WORKSPACE && npm run pm2
+    - run: wait-port 5000
+    - run: http --ignore-stdin get :5000
+    - run: cd $GITHUB_WORKSPACE && npm stop
