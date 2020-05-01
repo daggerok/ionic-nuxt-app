@@ -43,8 +43,8 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/pwa',
     '@nuxtjs/axios',
-    // '@nuxtjs/pwa',
     '@nuxtjs/dotenv',
   ],
   /*

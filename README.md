@@ -1,9 +1,9 @@
 # ionic-nuxt-app [![Build Status](https://travis-ci.org/daggerok/ionic-nuxt-app.svg?branch=master)](https://travis-ci.org/daggerok/ionic-nuxt-app) [![CI](https://github.com/daggerok/ionic-nuxt-app/workflows/CI/badge.svg)](https://github.com/daggerok/ionic-nuxt-app/actions?query=workflow%3ACI)
 Ionic + Nuxt.js setup
 
-## Setup
+## setup
 
-Create regular nuxt app:
+create regular nuxt app:
 
 ```bash
 npm i -g create-nuxt-app
@@ -12,7 +12,7 @@ cd ionic-nuxt-app/
 npm i -E @ionic/core @ionic/vue
 ```
 
-Add `plugins/ionic.js` file:
+add `plugins/ionic.js` file:
 
 ```js
 import Vue from 'vue';
@@ -25,7 +25,7 @@ Vue.config.ignoredElements = [
 ];
 ```
 
-eEdit `layoutes/default.vue` file:
+edit `layoutes/default.vue` file:
 
 ```vue
 <template>
@@ -35,7 +35,7 @@ eEdit `layoutes/default.vue` file:
 </template>
 ```
 
-Edit `pages/index.vue` file:
+edit `pages/index.vue` file:
 
 ```vue
 <template>
@@ -70,7 +70,7 @@ Edit `pages/index.vue` file:
 </script>
 ```
 
-Finally, edit `nuxt.config.js` file:
+finally, edit `nuxt.config.js` file:
 
 ```js
 // let's pick <base href="/ionic-nuxt-app/" /> when GitHub pages:
@@ -106,6 +106,14 @@ export default {
   },
   // skipped others...
 }
+```
+
+## build, test and run
+
+```bash
+rm -rf node_modules package-lock.json dist ; npm i ; npm audit fix ; npm t
+npm start
+http :3000
 ```
 
 ## resources

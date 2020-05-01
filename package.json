@@ -26,7 +26,8 @@
     "nuxt": "2.12.2"
   },
   "devDependencies": {
-    "@nuxtjs/pwa": "3.0.0-beta.19",
+    "@babel/preset-env": "7.9.6",
+    "@nuxtjs/pwa": "3.0.0-beta.20",
     "@types/node": "13.13.4",
     "@vue/test-utils": "1.0.0-beta.33",
     "babel-jest": "25.5.1",
@@ -35,5 +36,21 @@
     "pm2": "4.4.0",
     "serve": "11.3.0",
     "vue-jest": "4.0.0-beta.2"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          [
+            "@babel/preset-env",
+            {
+              "targets": {
+                "node": "current"
+              }
+            }
+          ]
+        ]
+      }
+    }
   }
 }
