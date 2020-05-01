@@ -70,7 +70,7 @@ Edit `pages/index.vue` file:
 </script>
 ```
 
-Finally edit `nuxt.config.js` file:
+Finally, edit `nuxt.config.js` file:
 
 ```js
 // let's pick <base href="/ionic-nuxt-app/" /> when GitHub pages:

@@ -24,6 +24,7 @@ jobs:
     - run: sudo npm i -g wait-port
     - run: command -v wait-port >/dev/null 2>&1 || { echo >&2 "I require wait-port, but it's not installed. Aborting."; exit 1; }
     - run: cd $GITHUB_WORKSPACE && npm i
+    - run: cd $GITHUB_WORKSPACE && npm audit fix
     - run: cd $GITHUB_WORKSPACE && npm run pm2
     - run: wait-port 5000
     - run: http --ignore-stdin get :5000
