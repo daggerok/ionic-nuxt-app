@@ -10,6 +10,9 @@ npm i -g create-nuxt-app
 create-nuxt-app ionic-nuxt-app
 cd ionic-nuxt-app/
 npm i -E @ionic/core @ionic/vue
+
+# IMPORTANT:
+npm i -ED jest@24.9.0
 ```
 
 add `plugins/ionic.js` file:
