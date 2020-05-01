@@ -19,7 +19,7 @@
     "stop": "pm2 kill"
   },
   "dependencies": {
-    "@ionic/core": "4.11.5",
+    "@ionic/core": "5.1.0",
     "@ionic/vue": "0.0.4",
     "@nuxtjs/axios": "5.8.0",
     "@nuxtjs/dotenv": "1.4.1",
