@@ -5,13 +5,19 @@
         <ion-title>Ionic Nuxt App</ion-title>
       </ion-toolbar>
     </ion-header>
-    <Logo/>
+    <Logo />
     <ion-content class="content">
       <ion-card>
         <ion-card-subtitle>Ololo</ion-card-subtitle>
         <ion-card-title>Trololo</ion-card-title>
         <ion-card-content>
           <h1>Hololo!</h1>
+          <h1>
+            Hello
+            <ion-icon :src="heartOutline"></ion-icon
+            ><ion-icon :src="heart"></ion-icon
+            ><ion-icon :src="heartHalf"></ion-icon>
+          </h1>
         </ion-card-content>
       </ion-card>
     </ion-content>
@@ -19,11 +25,19 @@
 </template>
 
 <script>
-  import Logo from '~/components/Logo.vue';
+import Logo from "~/components/Logo.vue";
+import { heartOutline, heart, heartHalf } from "ionicons/icons";
 
-  export default {
-    components: {
-      Logo,
-    },
-  };
+export default {
+  components: {
+    Logo
+  },
+  data: () => {
+    return {
+      heartOutline,
+      heart,
+      heartHalf
+    };
+  }
+};
 </script>
