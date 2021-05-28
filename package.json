@@ -32,6 +32,7 @@
     "@vue/test-utils": "1.0.0-beta.33",
     "babel-jest": "25.5.1",
     "cross-env": "7.0.2",
+    "ionicons": "5.1.2",
     "jest": "24.9.0",
     "pm2": "4.4.0",
     "serve": "11.3.0",
