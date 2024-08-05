@@ -23,7 +23,7 @@
     "@ionic/vue": "0.0.4",
     "@nuxtjs/axios": "5.10.3",
     "@nuxtjs/dotenv": "1.4.1",
-    "nuxt": "2.12.2"
+    "nuxt": "3.12.4"
   },
   "devDependencies": {
     "@babel/preset-env": "7.9.6",
